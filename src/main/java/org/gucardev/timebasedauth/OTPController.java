@@ -32,13 +32,6 @@ public class OTPController {
     }
 
 
-    @PostMapping("/validate-otp")
-    public ResponseEntity<Boolean> validateOTP(@RequestParam String key, @RequestParam int otp) {
-        boolean isValid = otpService.validateOTP(key, otp);
-        log.info("Validation result: {}", isValid);
-        return ResponseEntity.ok(isValid);
-    }
-
     @GetMapping("/time")
     public long serverTime() {
         var time = Instant.now().getEpochSecond();
