@@ -14,13 +14,14 @@ import java.time.Instant;
 public class OTPService {
 
     private static final String HMAC_ALGO = "HmacSHA256";
+    public static final int REFRESH_TIME = 5;
 
     public int generateOTP(String key, long time) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac hmac = Mac.getInstance(HMAC_ALGO);
         SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HMAC_ALGO);
         hmac.init(keySpec);
 
-        byte[] timeBytes = ByteBuffer.allocate(8).putLong(time / 30).array();
+        byte[] timeBytes = ByteBuffer.allocate(8).putLong(time / REFRESH_TIME).array();
         byte[] hmacResult = hmac.doFinal(timeBytes);
 
         int offset = hmacResult[hmacResult.length - 1] & 0xf;
